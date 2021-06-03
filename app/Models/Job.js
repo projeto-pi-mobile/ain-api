@@ -3,24 +3,22 @@
 /** @type {typeof import('@adonisjs/lucid/src/Lucid/Model')} */
 const Model = use('Model')
 
-class Post extends Model {
+class Job extends Model {
     static getCampos(){
         return [
-            'user_id', 
-            'content',
-            'title',
-            'status',
-            'comment_status',
-            'ping_status',
             'name',
-            'parent',
-            'guid',
-            'type'
+            'description',
+            'hits',
+            'user_id', 
+            'category_id'
         ]
       }
     users () {
         return this.belongsTo('App/Models/User')
     }
+    categories () {
+        return this.belongsTo('App/Models/Category')
+    }
 }
 
-module.exports = Post
+module.exports = Job

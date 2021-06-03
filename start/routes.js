@@ -25,6 +25,7 @@ Route.post('/users', 'UserController.store').prefix('api/v1')
 Route.get('/users/:id', 'UserController.show').middleware('auth').prefix('api/v1')
 Route.put('/users/:id', 'UserController.update').middleware('auth').prefix('api/v1')
 Route.delete('/users/:id', 'UserController.destroy').middleware('auth').prefix('api/v1')
+Route.get('/categories', 'CategoryController.index').prefix('api/v1')
 
 Route.post('/users/token', 'UserController.token').prefix('api/v1')
 

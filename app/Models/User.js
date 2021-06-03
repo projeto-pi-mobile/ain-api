@@ -10,14 +10,11 @@ class User extends Model {
 
   static getCampos(){
     return [
-        'login', 
-        'password',
-        'nickname',
+        'name', 
+        'surname',
         'email',
-        'url',
-        'activation_key',
-        'status',
-        'display_name'
+        'phone',
+        'password',
     ]
   }
 
@@ -48,8 +45,8 @@ class User extends Model {
   tokens () {
     return this.hasMany('App/Models/Token')
   }
-  posts () {
-    return this.hasMany('App/Models/Post')
+  jobs () {
+    return this.hasMany('App/Models/Job')
   }
 }
 

@@ -20,10 +20,10 @@ class UserController {
     }
      
     async store({request}){
-        const campos = User.getCampos()
-        const dados = request.only(campos)
+        const fields = User.getFields()
+        const data = request.only(fields)
 
-        return await User.create(dados)
+        return await User.create(data)
     }
 
     async token({request, auth}){
@@ -36,7 +36,7 @@ class UserController {
     async show ({ params, request, response, view }) {
         return await User.query()
                         .where('id', params.id)
-                        .with('posts')
+                        .with('jobs')
                         .first()
     }
 
@@ -44,12 +44,12 @@ class UserController {
     }
 
     async update ({ params, request, response }) {
-        const campos = User.getCampos()
-        const dados = request.only(campos)
+        const fields = User.getFields()
+        const data = request.only(fields)
         
         const user = await User.findOrFail(params.id)
         
-        user.merge(dados)
+        user.merge(data)
         await user.save();
 
         return user
@@ -60,7 +60,7 @@ class UserController {
 
         user.delete()
 
-        return 'Apagado com sucesso!'
+        return response;
     }
 }
 
