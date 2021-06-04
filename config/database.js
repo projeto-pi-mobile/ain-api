@@ -6,7 +6,7 @@ const Env = use('Env')
 /** @type {import('@adonisjs/ignitor/src/Helpers')} */
 const Helpers = use('Helpers')
 const URL = require('url-parse')
-const PROD_MYSQL_DB = new URL(Env.get("CLEARDB_DATABASE_URL"));
+const CLEARDB_DATABASE_URL = new URL(Env.get("CLEARDB_DATABASE_URL"));
 
 module.exports = {
   /*
@@ -18,8 +18,8 @@ module.exports = {
   | interacting with SQL databases.
   |
   */
-  connection: Env.get('DB_CONNECTION', 'sqlite'),
-
+  /* connection: Env.get('DB_CONNECTION', 'sqlite'),
+ */
   /*
   |--------------------------------------------------------------------------
   | Sqlite
@@ -31,14 +31,14 @@ module.exports = {
   | npm i --save sqlite3
   |
   */
-  sqlite: {
+  /* sqlite: {
     client: 'sqlite3',
     connection: {
       filename: Helpers.databasePath(`${Env.get('DB_DATABASE', 'development')}.sqlite`)
     },
     useNullAsDefault: true,
     debug: Env.get('DB_DEBUG', false)
-  },
+  }, */
 
   /*
   |--------------------------------------------------------------------------
@@ -55,15 +55,28 @@ module.exports = {
   mysql: {
     client: 'mysql',
     connection: {
-      host: Env.get('DB_HOST', PROD_MYSQL_DB.host),
+      host: Env.get('DB_HOST', CLEARDB_DATABASE_URL.host),
       port: Env.get('DB_PORT', ''),
-      user: Env.get('DB_USER', PROD_MYSQL_DB.username),
-      password: Env.get('DB_PASSWORD', PROD_MYSQL_DB.password),
-      database: Env.get('DB_DATABASE', PROD_MYSQL_DB.pathname.substr(1))
+      user: Env.get('DB_USER', CLEARDB_DATABASE_URL.username),
+      password: Env.get('DB_PASSWORD', CLEARDB_DATABASE_URL.password),
+      database: Env.get('DB_DATABASE', CLEARDB_DATABASE_URL.pathname.substr(1))
     },
     debug: Env.get('DB_DEBUG', false)
   },
 
+
+
+  /* mysql: {
+    client: 'mysql',
+    connection: {
+      host: Env.get('DB_HOST', ''),
+      port: Env.get('DB_PORT', ''),
+      user: Env.get('DB_USER', ''),
+      password: Env.get('DB_PASSWORD', ''),
+      database: Env.get('DB_DATABASE', '')
+    },
+    debug: Env.get('DB_DEBUG', false)
+  }, */
   /*
   |--------------------------------------------------------------------------
   | PostgreSQL
@@ -74,7 +87,7 @@ module.exports = {
   | npm i --save pg
   |
   */
-  pg: {
+ /*  pg: {
     client: 'pg',
     connection: {
       host: Env.get('DB_HOST', 'localhost'),
@@ -84,5 +97,5 @@ module.exports = {
       database: Env.get('DB_DATABASE', 'adonis')
     },
     debug: Env.get('DB_DEBUG', false)
-  }
+  } */
 }
