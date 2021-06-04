@@ -18,7 +18,7 @@ module.exports = {
   | interacting with SQL databases.
   |
   */
-  connection: Env.get('DB_CONNECTION', 'mysql'),
+  connection: Env.get('DB_CONNECTION', 'sqlite'),
 
   /*
   |--------------------------------------------------------------------------
@@ -51,7 +51,7 @@ module.exports = {
   |
   */
 
-  mysql: {
+ /*  mysql: {
     client: 'mysql',
     connection: {
       host: Env.get('DB_HOST', CLEARDB_DATABASE_URL.host),
@@ -61,7 +61,7 @@ module.exports = {
       database: Env.get('DB_DATABASE', CLEARDB_DATABASE_URL.pathname.substr(1))
     },
     debug: Env.get('DB_DEBUG', false)
-  },
+  }, */
 
 
   /* mysql: {
@@ -85,7 +85,7 @@ module.exports = {
   | npm i --save pg
   |
   */
- /*  pg: {
+  pg: {
     client: 'pg',
     connection: {
       host: Env.get('DB_HOST', 'localhost'),
@@ -95,5 +95,5 @@ module.exports = {
       database: Env.get('DB_DATABASE', 'adonis')
     },
     debug: Env.get('DB_DEBUG', false)
-  } */
+  }
 }
