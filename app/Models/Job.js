@@ -2,9 +2,10 @@
 
 /** @type {typeof import('@adonisjs/lucid/src/Lucid/Model')} */
 const Model = use('Model')
+const AbstractModel = use('App/Models/AbstractModels')
 
-class Job extends Model {
-    static getCampos(){
+class Job extends AbstractModel {
+    static getFields(){
         return [
             'name',
             'description',

@@ -13,18 +13,17 @@
 /** @type {import('@adonisjs/lucid/src/Factory')} */
 const Factory = use('Factory')
 
-const Post = use('App/Models/Post')
+const Category = use('App/Models/Category')
 
-class PostSeeder {
+class CategorySeeder {
   async run () {
-    await Post.createMany([
+    await Category.createMany([
       {name: 'Frondend'},
       {name: 'Backend'},
-      {name: 'Devops'},
-      {name: 'Arquiteto'},
-      {name: 'DBA'},
+      {name: 'DevOps'},
+      {name: 'Engenheiro'},
     ])
   }
 }
 
-module.exports = PostSeeder
+module.exports = CategorySeeder

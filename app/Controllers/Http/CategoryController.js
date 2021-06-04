@@ -28,17 +28,6 @@ class CategoryController {
     return await query.paginate(page, amount);
   }
 
-  /**
-   * Render a form to be used for creating a new category.
-   * GET categories/create
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async create ({ request, response, view }) {
-  }
 
   /**
    * Create/save a new category.
@@ -49,6 +38,10 @@ class CategoryController {
    * @param {Response} ctx.response
    */
   async store ({ request, response }) {
+    const fields = Category.getFields()
+    const data = request.only(fields)
+
+    return await Category.create(data)
   }
 
   /**
@@ -61,19 +54,12 @@ class CategoryController {
    * @param {View} ctx.view
    */
   async show ({ params, request, response, view }) {
+    return await Category.query()
+                        .where('id', params.id)
+                        .with('jobs')
+                        .first()
   }
 
-  /**
-   * Render a form to update an existing category.
-   * GET categories/:id/edit
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async edit ({ params, request, response, view }) {
-  }
 
   /**
    * Update category details.
@@ -84,6 +70,15 @@ class CategoryController {
    * @param {Response} ctx.response
    */
   async update ({ params, request, response }) {
+    const fields = Category.getFields()
+    const data = request.only(fields)
+    
+    const category = await Category.findOrFail(params.id)
+    
+    category.merge(data)
+    await category.save();
+
+    return category;
   }
 
   /**
@@ -95,6 +90,14 @@ class CategoryController {
    * @param {Response} ctx.response
    */
   async destroy ({ params, request, response }) {
+    const category = await Category.findOrFail(params.id);
+    console.log(category);
+
+    category.delete()
+
+    return {
+      message: 'Categoria removida com sucesso!'
+    };
   }
 }
 

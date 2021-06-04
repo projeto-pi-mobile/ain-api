@@ -6,7 +6,7 @@ class UserController {
     
     async index ({ request, response, view }) {
         const {page, qtd, name, email} = request.all()
-
+        
         const query = User.query()
 
         if(name){
@@ -40,8 +40,6 @@ class UserController {
                         .first()
     }
 
-    async edit ({ params, request, response, view }) {
-    }
 
     async update ({ params, request, response }) {
         const fields = User.getFields()
@@ -60,7 +58,9 @@ class UserController {
 
         user.delete()
 
-        return response;
+        return {
+            message: 'Usuário removido com sucesso!'
+          };
     }
 }
 

@@ -1,14 +1,16 @@
 'use strict'
 
 /** @type {typeof import('@adonisjs/lucid/src/Lucid/Model')} */
-const Model = use('Model')
-
 /** @type {import('@adonisjs/framework/src/Hash')} */
+
 const Hash = use('Hash')
+const Model = use('Model')
+const AbstractModel = use('App/Models/AbstractModels')
 
-class User extends Model {
 
-  static getCampos(){
+class User extends AbstractModel {
+
+  static getFields(){
     return [
         'name', 
         'surname',
@@ -16,6 +18,10 @@ class User extends Model {
         'phone',
         'password',
     ]
+  }
+  
+  static get hidden () {
+    return ['password']
   }
 
   static boot () {

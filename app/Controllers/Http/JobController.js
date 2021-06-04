@@ -53,10 +53,12 @@ class JobController {
    * @param {View} ctx.view
    */
   async show({ params, request, response, view }) {
-    return await Job.query()
-                        .where('id', params.id)
-                        .with('users')
-                        .first()
+    
+    const data = await Job.query().where('id', params.id).first();
+    data.hits = data.hits + 1;
+    await data.save();
+    return await Job.query().where('id', params.id).with('users').first();
+   
   }
 
   /**
@@ -92,7 +94,9 @@ class JobController {
 
     job.delete()
 
-    return response;
+    return {
+      message: 'Serviço removido com sucesso!'
+    };
 }
 }
 
