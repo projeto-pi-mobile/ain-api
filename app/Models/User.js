@@ -5,10 +5,9 @@
 
 const Hash = use('Hash')
 const Model = use('Model')
-const AbstractModel = use('App/Models/AbstractModels')
 
 
-class User extends AbstractModel {
+class User extends Model {
 
   static getFields(){
     return [
@@ -20,10 +19,10 @@ class User extends AbstractModel {
     ]
   }
   
-  static get hidden () {
+  /* static get hidden () {
     return ['password']
   }
-
+ */
   static boot () {
     super.boot()
 
