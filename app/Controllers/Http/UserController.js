@@ -1,67 +1,62 @@
-'use strict'
+"use strict";
 
-const User = use('App/Models/User')
+const User = use("App/Models/User");
 
 class UserController {
-    
-    async index ({ request, response, view }) {
-        const {page, qtd, name, email} = request.all()
-        
-        const query = User.query()
+  async index({ request, response, view }) {
+    const { page, qtd, name, email } = request.all();
 
-        if(name){
-        query.where('name', 'like', '%'+name+'%')
-        }
-        if(email){
-        query.where('email', 'like', '%'+email+'%')
-        }
+    const query = User.query();
 
-        return await query.paginate(page, qtd);
+    if (name) {
+      query.where("name", "like", "%" + name + "%");
     }
-     
-    async store({request}){
-        const fields = User.getFields()
-        const data = request.only(fields)
-
-        return await User.create(data)
+    if (email) {
+      query.where("email", "like", "%" + email + "%");
     }
 
-    async token({request, auth}){
+    return await query.paginate(page, qtd);
+  }
 
-        const{ email, password }= request.all()
+  async store({ request }) {
+    const fields = User.getFields();
+    const data = request.only(fields);
 
-        return await auth.attempt(email, password)
-    }
+    return await User.create(data);
+  }
 
-    async show ({ params, request, response, view }) {
-        return await User.query()
-                        .where('id', params.id)
-                        .with('jobs')
-                        .first()
-    }
+  async token({ request, auth }) {
+    const { email, password } = request.all();
+    const token = await auth.attempt(email, password);
 
+    return token;
+  }
 
-    async update ({ params, request, response }) {
-        const fields = User.getFields()
-        const data = request.only(fields)
-        
-        const user = await User.findOrFail(params.id)
-        
-        user.merge(data)
-        await user.save();
+  async show({ params, request, response, view }) {
+    return await User.query().where("id", params.id).with("jobs").first();
+  }
 
-        return user
-    }
+  async update({ params, request, response }) {
+    const fields = User.getFields();
+    const data = request.only(fields);
 
-    async destroy ({ params, request, response }) {
-        const user = await User.findOrFail(params.id)
+    const user = await User.findOrFail(params.id);
 
-        user.delete()
+    user.merge(data);
+    await user.save();
 
-        return {
-            message: 'Usuário removido com sucesso!'
-          };
-    }
+    return user;
+  }
+
+  async destroy({ params, request, response }) {
+    const user = await User.findOrFail(params.id);
+
+    user.delete();
+
+    return {
+      message: "Usuário removido com sucesso!",
+    };
+  }
 }
 
-module.exports = UserController
+module.exports = UserController;

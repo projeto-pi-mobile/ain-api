@@ -1,41 +1,32 @@
-'use strict'
+"use strict";
 
 /** @type {typeof import('@adonisjs/lucid/src/Lucid/Model')} */
 /** @type {import('@adonisjs/framework/src/Hash')} */
 
-const Hash = use('Hash')
-const Model = use('Model')
-const AbstractModel = use('App/Models/AbstractModels')
+const Hash = use("Hash");
+const Model = use("Model");
 
-
-class User extends AbstractModel {
-
-  static getFields(){
-    return [
-        'name', 
-        'surname',
-        'email',
-        'phone',
-        'password',
-    ]
+class User extends Model {
+  static getFields() {
+    return ["name", "surname", "email", "phone", "password"];
   }
-  
-  static get hidden () {
+
+  /* static get hidden () {
     return ['password']
   }
-
-  static boot () {
-    super.boot()
+ */
+  static boot() {
+    super.boot();
 
     /**
      * A hook to hash the user password before saving
      * it to the database.
      */
-    this.addHook('beforeSave', async (userInstance) => {
+    this.addHook("beforeSave", async (userInstance) => {
       if (userInstance.dirty.password) {
-        userInstance.password = await Hash.make(userInstance.password)
+        userInstance.password = await Hash.make(userInstance.password);
       }
-    })
+    });
   }
 
   /**
@@ -48,12 +39,12 @@ class User extends AbstractModel {
    *
    * @return {Object}
    */
-  tokens () {
-    return this.hasMany('App/Models/Token')
+  tokens() {
+    return this.hasMany("App/Models/Token");
   }
-  jobs () {
-    return this.hasMany('App/Models/Job')
+  jobs() {
+    return this.hasMany("App/Models/Job");
   }
 }
 
-module.exports = User
+module.exports = User;
