@@ -51,7 +51,7 @@ module.exports = {
   |
   */
 
-  mysql: {
+  /* mysql: {
     client: 'mysql',
     connection: {
       host: Env.get('DB_HOST', 'localhost'),
@@ -61,7 +61,7 @@ module.exports = {
       database: Env.get('DB_DATABASE', '')
     },
     debug: Env.get('DB_DEBUG', false)
-  },
+  }, */
 
 
   /* mysql: {
@@ -85,7 +85,7 @@ module.exports = {
   | npm i --save pg
   |
   */
-  /* pg: {
+  pg: {
     client: 'pg',
     connection: {
       host: Env.get('DB_HOST', DATABASE_URL.hostname),
@@ -95,7 +95,7 @@ module.exports = {
       database: Env.get('DB_DATABASE', DATABASE_URL.pathname.substr(1))
     },
     debug: Env.get('DB_DEBUG', false)
-  } */
+  }
 
   /* pg: {
     client: 'pg',
