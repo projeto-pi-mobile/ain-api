@@ -33,6 +33,7 @@ Route.put('/users/:id', 'UserController.update').middleware('auth').prefix('api/
 Route.delete('/users/:id', 'UserController.destroy').middleware('auth').prefix('api/v1');
 
 Route.get('/jobs', 'JobController.index').prefix('api/v1');
+Route.get('/jobs/:id', 'JobController.show').prefix('api/v1');
 
 Route.group(()=>{
 
