@@ -32,6 +32,8 @@ Route.post('/users/token', 'UserController.token').prefix('api/v1');
 Route.put('/users/:id', 'UserController.update').middleware('auth').prefix('api/v1');
 Route.delete('/users/:id', 'UserController.destroy').middleware('auth').prefix('api/v1');
 
+Route.get('/jobs', 'UserController.index').prefix('api/v1');
+
 Route.group(()=>{
 
   Route.resource('/jobs', 'JobController')
