@@ -23,7 +23,7 @@ Route.get('/', () => {
 
 Route.get('/categories', 'CategoryController.index').prefix('api/v1');
 Route.get('/category/:id', 'CategoryController.show').prefix('api/v1');
-Route.get('/category/:id', 'CategoryController.destroy').prefix('api/v1');
+Route.delete('/category/:id', 'CategoryController.destroy').prefix('api/v1');
 
 Route.get('/users', 'UserController.index').prefix('api/v1');
 Route.post('/users', 'UserController.store').prefix('api/v1');
