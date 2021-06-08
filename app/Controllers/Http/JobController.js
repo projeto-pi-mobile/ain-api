@@ -20,14 +20,13 @@ class JobController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async index({ request, response, view }) {
-    const { page, amount, name } = request.all();
-    const query = Job.query();
-
+   async index({ request, response, view }) {
+    const { page, qty, name } = request.all();
+    const query = Job.query().orderBy("name", "asc");
     if( name ) {
-      query.where('name', 'like', `%${name}%`);
+      query.where('name', 'like', `%${name}%`).fetch();
     }
-    return await query.paginate(page, amount);
+    return await query.paginate(page, qty);
   }
   /**
    * Create/save a new category.
