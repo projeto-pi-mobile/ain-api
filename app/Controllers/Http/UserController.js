@@ -4,18 +4,12 @@ const User = use("App/Models/User");
 
 class UserController {
   async index({ request, response, view }) {
-    const { page, qtd, name, email } = request.all();
-
-    const query = User.query();
-
-    if (name) {
-      query.where("name", "like", "%" + name + "%");
+    const { page, qty, name } = request.all();
+    const query = User.query().orderBy("name", "asc");
+    if( name ) {
+      query.where('name', 'like', `%${name}%`).fetch();
     }
-    if (email) {
-      query.where("email", "like", "%" + email + "%");
-    }
-
-    return await query.paginate(page, qtd);
+    return await query.paginate(page, qty);
   }
 
   async store({ request }) {
