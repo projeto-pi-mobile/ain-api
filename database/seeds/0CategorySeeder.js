@@ -2,7 +2,7 @@
 
 /*
 |--------------------------------------------------------------------------
-| UserSeeder
+| PostSeeder
 |--------------------------------------------------------------------------
 |
 | Make use of the Factory instance to seed database with dummy data or
@@ -13,14 +13,17 @@
 /** @type {import('@adonisjs/lucid/src/Factory')} */
 const Factory = use('Factory')
 
-const User = use('App/Models/User')
+const Category = use('App/Models/Category')
 
-class UserSeeder {
+class CategorySeeder {
   async run () {
-    await User.createMany([
-      {id:'1', login:'adm', password:'123', nickname:'adm', email:'dev-email@flywheel.local', url:'http://ainapi.local', status:'0', display_name:'adm'},
+    await Category.createMany([
+      {name: 'Frondend'},
+      {name: 'Backend'},
+      {name: 'DevOps'},
+      {name: 'Engenheiro'},
     ])
   }
 }
 
-module.exports = UserSeeder
+module.exports = CategorySeeder
