@@ -55,11 +55,10 @@ class JobController {
     
     const data = await Job.query()
       .where('id', params.id)
-      .with('categories')
       .first();
     data.hits = data.hits + 1;
     await data.save();
-    return await Job.query().where('id', params.id).with('users').first();
+    return await Job.query().where('id', params.id).with('users').with('categories').first();
    
   }
 
