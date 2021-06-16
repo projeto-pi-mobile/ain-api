@@ -20,8 +20,17 @@ class UserController {
   }
 
   async token({ request, auth }) {
-    const { email, password } = request.all();
-    const token = await auth.attempt(email, password);
+    try {
+      const { email, password } = request.all();
+      const token = await auth.attempt(email, password);
+      const { id } = await User.query().where("email", email).first();
+      return { ...token, id };
+    } catch (error) {
+      console.log(error);
+      if (error.toString().indexOf("Cannot find user with email as")) {
+        return { error: "E-mail ou senha inválidos" };
+      }
+    }
 
     return token;
   }
