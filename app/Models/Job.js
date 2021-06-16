@@ -18,7 +18,7 @@ class Job extends AbstractModel {
         return this.belongsTo('App/Models/User')
     }
     categories () {
-        return this.belongsTo('App/Models/Category')
+        return this.belongsToMany('App/Models/Category')
     }
 }
 

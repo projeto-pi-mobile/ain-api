@@ -53,7 +53,10 @@ class JobController {
    */
   async show({ params, request, response, view }) {
     
-    const data = await Job.query().where('id', params.id).first();
+    const data = await Job.query()
+      .where('id', params.id)
+      .with('categories')
+      .first();
     data.hits = data.hits + 1;
     await data.save();
     return await Job.query().where('id', params.id).with('users').first();
