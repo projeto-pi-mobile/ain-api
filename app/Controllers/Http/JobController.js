@@ -22,7 +22,7 @@ class JobController {
    */
    async index({ request, response, view }) {
     const { page, qty, name } = request.all();
-    const query = Job.query().orderBy("name", "asc");
+    const query = Job.query().orderBy("name", "asc").with('categories');
     if( name ) {
       query.where('name', 'like', `%${name}%`).fetch();
     }
