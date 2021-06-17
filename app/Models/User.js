@@ -43,7 +43,7 @@ class User extends Model {
     return this.hasMany("App/Models/Token");
   }
   jobs() {
-    return this.belongsToMany("App/Models/Job").pivotTable('categoies');
+    return this.hasMany("App/Models/Job").pivotTable('categoies');
   }
 }
 
