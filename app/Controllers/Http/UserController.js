@@ -6,37 +6,71 @@ class UserController {
   async index({ request, response, view }) {
     const { page, qty, name } = request.all();
     const query = User.query().orderBy("name", "asc");
-    if( name ) {
-      query.where('name', 'like', `%${name}%`).fetch();
+    if (name) {
+      query.where("name", "like", `%${name}%`).fetch();
     }
     return await query.paginate(page, qty);
   }
 
-  async store({ request }) {
-    const fields = User.getFields();
-    const data = request.only(fields);
+  async store({ request, response }) {
+    console.log("entrei no store");
+    try {
+      const fields = await User.getFields();
+      const data = await request.only(fields);
+      const { email } = data;
 
-    return await User.create(data);
+      const user = await User.query().where("email", email).first();
+
+      if (!user) {
+        const storeUser = await User.create(data);
+        response.status(200).json({
+          message: "Usuário criado com sucesso!",
+          data: storeUser,
+        });
+      } else {
+        response.status(401).json({
+          message: "Usuário já existe",
+          email,
+        });
+      }
+    } catch (err) {
+      console.log(err);
+      response.status(500).json({
+        message: "ocorreu um erro",
+      });
+    }
   }
 
-  async token({ request, auth }) {
-    try {
-      const { email, password } = request.all();
+  async token({ request, auth, response }) {
+    const { email, password } = request.all();
+
+    if (email && password) {
       const token = await auth.attempt(email, password);
       const { id } = await User.query().where("email", email).first();
-      return { ...token, id };
-    } catch (error) {
-      console.log(error);
-      if (error.toString().indexOf("Cannot find user with email as")) {
-        return { error: "E-mail ou senha inválidos" };
-      }
+      response.status(200).json({
+        message: "Usuário encontrado",
+        data: { ...token, id },
+      });
+    } else {
+      response.status(404).json({
+        message: "Dados incorretos incorretos",
+      });
     }
-
-    return token;
   }
 
-  async show({ params, request, response, view }) {
-    return await User.query().where("id", params.id).with("jobs").first();
+  async show({ params: { id }, response }) {
+    const userData = await User.query().where("id", id).with("jobs").first();
+    if (userData) {
+      response.status(200).json({
+        message: "Dados do usuário",
+        data: userData,
+      });
+    } else {
+      response.status(404).json({
+        message: "Usuário não encontrado",
+        id,
+      });
+    }
   }
 
   async update({ params, request, response }) {
