@@ -53,7 +53,7 @@ class UserController {
       } else {
         console.log(response);
         response.status(401).json({
-          message: "Dados incorretos incorretos",
+          message: "Dados incorretos.",
         });
       }
     } catch(err) {
