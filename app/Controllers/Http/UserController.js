@@ -34,7 +34,7 @@ class UserController {
         });
       }
     } catch (err) {
-      response.status(500).json({
+      response.status(401).json({
         message: "Ocorreu um erro desconhecido.",
       });
     }
