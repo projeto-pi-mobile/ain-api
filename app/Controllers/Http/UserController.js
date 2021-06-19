@@ -33,7 +33,7 @@ class UserController {
         });
       }
     } else {
-      response.status(401).json({
+      response.status(403).json({
         message: "Usuário já existe",
         email,
       });
