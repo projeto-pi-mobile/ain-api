@@ -34,27 +34,33 @@ class UserController {
         });
       }
     } catch (err) {
-      console.log(err);
       response.status(500).json({
-        message: "ocorreu um erro",
+        message: "Ocorreu um erro desconhecido.",
       });
     }
   }
 
   async token({ request, auth, response }) {
     const { email, password } = request.all();
-
-    if (email && password) {
-      const token = await auth.attempt(email, password);
-      const { id } = await User.query().where("email", email).first();
-      response.status(200).json({
-        message: "Usuário encontrado",
-        data: { ...token, id },
-      });
-    } else {
+    try {
+      if (email && password) {
+        const token = await auth.attempt(email, password);
+        const { id } = await User.query().where("email", email).first();
+        response.status(200).json({
+          message: "Usuário encontrado",
+          data: { ...token, id },
+        });
+      } else {
+        console.log(response);
+        response.status(401).json({
+          message: "Dados incorretos incorretos",
+        });
+      }
+    } catch(err) {
       response.status(401).json({
-        message: "Dados incorretos incorretos",
-      });
+        message: "Usuário não encontrado.",
+        email
+      })
     }
   }
 
