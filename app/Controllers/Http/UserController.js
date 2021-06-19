@@ -14,28 +14,28 @@ class UserController {
 
   async store({ request, response }) {
     console.log("entrei no store");
-    try {
-      const fields = await User.getFields();
-      const data = await request.only(fields);
-      const { email } = data;
+    const fields = await User.getFields();
+    const data = await request.only(fields);
+    const { email } = data;
+    const user = await User.query().where("email", email).first();
 
-      const user = await User.query().where("email", email).first();
-
-      if (!user) {
+    if (!user) {
+      try {
         const storeUser = await User.create(data);
         response.status(200).json({
           message: "Usuário criado com sucesso!",
           data: storeUser,
         });
-      } else {
+      } catch (err) {
         response.status(401).json({
-          message: "Usuário já existe",
+          message: "Não foi possível criar este usuário.",
           email,
         });
       }
-    } catch (err) {
+    } else {
       response.status(401).json({
-        message: "Ocorreu um erro desconhecido.",
+        message: "Usuário já existe",
+        email,
       });
     }
   }
@@ -56,11 +56,11 @@ class UserController {
           message: "Dados incorretos.",
         });
       }
-    } catch(err) {
+    } catch (err) {
       response.status(401).json({
         message: "Usuário não encontrado.",
-        email
-      })
+        email,
+      });
     }
   }
 
