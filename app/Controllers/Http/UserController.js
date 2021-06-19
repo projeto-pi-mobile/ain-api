@@ -52,7 +52,7 @@ class UserController {
         data: { ...token, id },
       });
     } else {
-      response.status(404).json({
+      response.status(401).json({
         message: "Dados incorretos incorretos",
       });
     }
@@ -66,7 +66,7 @@ class UserController {
         data: userData,
       });
     } else {
-      response.status(404).json({
+      response.status(401).json({
         message: "Usuário não encontrado",
         id,
       });
