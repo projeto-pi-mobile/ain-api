@@ -105,7 +105,7 @@ class JobController {
       }
     } catch(err){
       response.status(401).json({
-        message: "Essa atividade já foi excluída ou não existe."
+        message: "Essa atividade já foi excluída ou nunca existiu."
       });
     }
     
