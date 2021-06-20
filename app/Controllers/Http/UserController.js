@@ -93,12 +93,16 @@ class UserController {
 
   async destroy({ params, request, response }) {
     const user = await User.findOrFail(params.id);
-
-    user.delete();
-
-    return {
-      message: "Usuário removido com sucesso!",
-    };
+    if(user){
+      response.status(200).json({
+        message: "Usuário removido com sucesso!",
+      })
+      user.delete();
+    } else {
+      response.status(401).json({
+        message: "Usuário não econtrado"
+      });
+    }
   }
 }
 
