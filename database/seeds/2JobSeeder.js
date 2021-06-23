@@ -23,28 +23,24 @@ class JobSeeder {
         description:'Sou desenvolvedor front-end com mais de 10 anos de profissão.', 
         hits: 0, 
         user_id: 1, 
-        category_id: 1, 
       },
       {
         name:'Desenvolvedor back-end', 
         description:'Sou desenvolvedor backend com mais de 10 anos de profissão.', 
         hits: 0, 
         user_id: 2, 
-        category_id: 2, 
       },
       {
         name:'DevOps', 
         description:'Sou devOps com mais de 10 anos de profissão.', 
         hits: 0, 
         user_id: 3, 
-        category_id: 3, 
       },
       {
         name:'Engenheiro', 
         description:'Sou engenheiro com mais de 10 anos de profissão.', 
         hits: 0, 
         user_id: 4, 
-        category_id: 4, 
       },
     ])
   }
