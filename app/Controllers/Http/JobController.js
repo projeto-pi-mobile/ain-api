@@ -39,7 +39,16 @@ class JobController {
   async store({ request, response }) {
     const registerFields = Job.getFields();
     const data = request.only(registerFields);
-    return await Job.create(data);
+    if(data) {
+      response.status(200).json({
+        message: "Atividade cadastrada com sucesso!",
+      })
+      return await Job.create(data);
+    } else {
+      response.status(401).json({
+        message: "Não foi possível criar essa atividade"
+      })
+    }
   }
 
   /**
