@@ -11,7 +11,7 @@ class JobSchema extends Schema {
       table.string('description', 400).notNullable()
       table.integer('hits')
       table.integer('user_id').unsigned().references('id').inTable('users').notNullable()
-      table.integer('category_id').unsigned().references('id').inTable('categories').notNullable()
+      table.integer('category_id').unsigned().references('id').inTable('categories')
       table.timestamps()
     })
   }

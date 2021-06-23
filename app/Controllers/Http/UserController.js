@@ -4,36 +4,79 @@ const User = use("App/Models/User");
 
 class UserController {
   async index({ request, response, view }) {
-    const { page, qtd, name, email } = request.all();
-
-    const query = User.query();
-
+    const { page, qty, name } = request.all();
+    const query = User.query().orderBy("name", "asc");
     if (name) {
-      query.where("name", "like", "%" + name + "%");
+      query.where("name", "like", `%${name}%`).fetch();
     }
-    if (email) {
-      query.where("email", "like", "%" + email + "%");
-    }
-
-    return await query.paginate(page, qtd);
+    return await query.paginate(page, qty);
   }
 
-  async store({ request }) {
-    const fields = User.getFields();
-    const data = request.only(fields);
+  async store({ request, response }) {
+    console.log("entrei no store");
+    const fields = await User.getFields();
+    const data = await request.only(fields);
+    const { email } = data;
+    const user = await User.query().where("email", email).first();
 
-    return await User.create(data);
+    if (!user) {
+      try {
+        const storeUser = await User.create(data);
+        response.status(200).json({
+          message: "Usuário criado com sucesso!",
+          data: storeUser,
+        });
+      } catch (err) {
+        response.status(401).json({
+          message: "Não foi possível criar este usuário.",
+          email,
+        });
+      }
+    } else {
+      response.status(403).json({
+        message: "Usuário já existe",
+        email,
+      });
+    }
   }
 
-  async token({ request, auth }) {
+  async token({ request, auth, response }) {
     const { email, password } = request.all();
-    const token = await auth.attempt(email, password);
-
-    return token;
+    try {
+      if (email && password) {
+        const token = await auth.attempt(email, password);
+        const { id } = await User.query().where("email", email).first();
+        response.status(200).json({
+          message: "Usuário encontrado",
+          data: { ...token, id },
+        });
+      } else {
+        console.log(response);
+        response.status(401).json({
+          message: "Dados incorretos.",
+        });
+      }
+    } catch (err) {
+      response.status(401).json({
+        message: "Usuário não encontrado.",
+        email,
+      });
+    }
   }
 
-  async show({ params, request, response, view }) {
-    return await User.query().where("id", params.id).with("jobs").first();
+  async show({ params: { id }, response }) {
+    const userData = await User.query().where("id", id).with("jobs").first();
+    if (userData) {
+      response.status(200).json({
+        message: "Dados do usuário",
+        data: userData,
+      });
+    } else {
+      response.status(401).json({
+        message: "Usuário não encontrado",
+        id,
+      });
+    }
   }
 
   async update({ params, request, response }) {
@@ -50,12 +93,16 @@ class UserController {
 
   async destroy({ params, request, response }) {
     const user = await User.findOrFail(params.id);
-
-    user.delete();
-
-    return {
-      message: "Usuário removido com sucesso!",
-    };
+    if(user){
+      response.status(200).json({
+        message: "Usuário removido com sucesso!",
+      })
+      user.delete();
+    } else {
+      response.status(401).json({
+        message: "Usuário não econtrado"
+      });
+    }
   }
 }
 

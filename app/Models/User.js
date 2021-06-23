@@ -11,10 +11,10 @@ class User extends Model {
     return ["name", "surname", "email", "phone", "password"];
   }
 
-  /* static get hidden () {
+ static get hidden () {
     return ['password']
   }
- */
+
   static boot() {
     super.boot();
 
