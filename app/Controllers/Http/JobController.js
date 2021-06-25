@@ -39,15 +39,15 @@ class JobController {
   async store({ request, response }) {
     const registerFields = Job.getFields();
     const data = request.only(registerFields);
-    if(data) {
+    if (data) {
       response.status(200).json({
         message: "Atividade cadastrada com sucesso!",
-      })
+      });
       return await Job.create(data);
     } else {
       response.status(401).json({
-        message: "Não foi possível criar essa atividade"
-      })
+        message: "Não foi possível criar essa atividade",
+      });
     }
   }
 
@@ -62,13 +62,15 @@ class JobController {
    */
   async show({ params, request, response, view }) {
     const data = await Job.query().where("id", params.id).first();
-    data.hits = data.hits + 1;
+    if (!params.isEdit) {
+      data.hits = data.hits + 1;
+    } 
     await data.save();
     return await Job.query()
-      .where("id", params.id)
-      .with("users")
-      .with("categories")
-      .first();
+    .where("id", params.id)
+    .with("users")
+    .with("categories")
+    .first();
   }
 
   /**
@@ -100,7 +102,7 @@ class JobController {
    * @param {Response} ctx.response
    */
   async destroy({ params, request, response }) {
-    try{
+    try {
       const job = await Job.findOrFail(params.id);
       if (job) {
         response.status(200).json({
@@ -109,15 +111,14 @@ class JobController {
         job.delete();
       } else {
         response.status(404).json({
-          message: "Atividade não encontrada."
+          message: "Atividade não encontrada.",
         });
       }
-    } catch(err){
+    } catch (err) {
       response.status(401).json({
-        message: "Essa atividade já foi excluída ou nunca existiu."
+        message: "Essa atividade já foi excluída ou nunca existiu.",
       });
     }
-    
   }
 }
 

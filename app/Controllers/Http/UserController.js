@@ -13,7 +13,6 @@ class UserController {
   }
 
   async store({ request, response }) {
-    console.log("entrei no store");
     const fields = await User.getFields();
     const data = await request.only(fields);
     const { email } = data;
